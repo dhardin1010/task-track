@@ -1,0 +1,26 @@
+
+<div class="content-header">
+  <div class="header-block">
+    <button mat-icon-button (click)="onBack()" type="button">
+      <mat-icon >arrow_back</mat-icon>
+    </button>
+    <form [formGroup]="projectForm" (ngSubmit)="onProjectFormSubmit()" class="project-name">
+      <div class="project-name__header-description" *ngIf="!isEditing">{{project.name}}</div>
+      <input type="text" *ngIf="isEditing" formControlName="projectName" #projectName>
+      <mat-icon class="md-20 edit" *ngIf="!isEditing" (click)="onEdit()">edit</mat-icon>
+      <button type="submit" *ngIf="isEditing">
+        <mat-icon class="md-24 edit">check</mat-icon>
+      </button>
+      <mat-icon class="md-24 edit" *ngIf="isEditing" (click)="onEditCancel()">close</mat-icon>
+    </form>
+    <button mat-icon-button (click)="onDelete()" type="button">
+      <mat-icon >delete</mat-icon>
+    </button>
+  </div>
+</div>
+<div class="content">
+    <div class="container">
+      <app-tasks class="container__tasks"></app-tasks>
+      <app-events class="container__events"></app-events>
+    </div>
+</div>

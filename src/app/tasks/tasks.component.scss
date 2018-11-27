@@ -1,0 +1,47 @@
+
+.task-container {
+  height: 100%;
+  width: 40rem;
+  background-color: white;
+
+  &__header-block {
+    grid-row: 1 / 2;
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    border-bottom: .1rem var(--color-grey-dark-3) solid;
+    padding: 0 1.5rem;
+
+    &-description {
+      margin-top: .6rem;
+      font-size: 1.6rem;
+    }
+    
+    &-left {
+      margin-right: .5rem;
+      margin-top: .6rem;
+    }
+    
+    &-right {
+      margin-top: .6rem;
+    }
+  }
+
+  &__list-content {
+    height: calc(100% - 5rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+.button {
+  cursor:pointer;
+}
+
+.edit {
+  cursor: pointer;
+  font-size: 2.3rem;
+}

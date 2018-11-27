@@ -1,0 +1,23 @@
+<div class="content-header">
+  <div class="header-text">
+    <div class="header-text__name">WELCOME TO TASK TRACK</div>
+    <div class="header-text__caption">Keep accurate time of all your project related tasks.  Add a project  to begin.</div>
+  </div>
+  </div>
+<div class="project-list-container">
+  <div class="project-card project-card--add"
+       (click)="onSelect('0')">
+      <mat-icon class="md-56">add_circle</mat-icon>
+      <div class="project-name">
+        Add Project
+      </div>
+    </div>
+  <div class="project-card" 
+      *ngFor="let project of projects"
+      (click)="onSelect(project.id)">
+    <mat-icon class="md-56">view_compact</mat-icon>
+    <div class="project-name">
+      {{project.name}}
+    </div>
+  </div>
+</div>

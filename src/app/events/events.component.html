@@ -1,0 +1,45 @@
+
+<div class="events-container">
+    <div class="events-container__header-block">
+      <div class="events-container__header-block-left">
+        <mat-icon class="edit" (click)="onAdd()">add_circle</mat-icon>
+        <mat-icon class="edit" (click)="onEdit()">edit</mat-icon>
+      </div>
+      <span class="events-container__header-block-description">Events</span>
+      <div class="events-container__header-block-right">
+        <mat-icon class="edit" (click)="onDelete()">delete</mat-icon>
+      </div>
+    </div>
+    <div class="events-container__recorder-block">
+        <div class="recorder">
+            <button mat-icon-button
+              *ngIf="!isRecording"
+              (click)="onStart()"
+              type="button">
+              <mat-icon class="recorder--start">play_arrow</mat-icon>
+            </button>
+            <button mat-icon-button
+              *ngIf="isRecording"
+              (click)="onStop()"
+              type="button">
+              <mat-icon class="recorder--stop">stop</mat-icon>
+            </button>
+            <span class="recorder--event-time">{{formattedTime}}</span>
+          </div>            
+    </div>
+    <div *ngIf="!showEmpty" #eventList class="events-container__list-content">
+      <app-event-list-item
+        *ngFor="let event of events; let index = index" 
+        (click)="onSelected(event, index)"
+        [event]="event" 
+        [active]="index === selectedIndex ? true : false"
+        [ngClass]="{active: index === selectedIndex}">
+      </app-event-list-item>
+    </div>
+    <div class="event-graphic-container" *ngIf="showEmpty">
+      <div class="event-graphic-container__empty">
+        <mat-icon class="event-graphic-container__empty--icon">list_alt</mat-icon>
+        <span class="event-graphic-container__empty--text">Select a task</span>
+      </div>
+    </div>
+  </div>

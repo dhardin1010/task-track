@@ -1,0 +1,8 @@
+<div class="item-container" [ngClass]="{selected: active}">
+  <div class="item-container__name">
+    {{event.eventStart | date: 'MM/dd/yyyy, h:mm a'}} - {{event.eventEnd | date: 'MM/dd/yyyy, h:mm a'}}
+  </div>
+  <div class="item-container__hours">
+    {{event.eventHours}} hours
+  </div>
+</div>

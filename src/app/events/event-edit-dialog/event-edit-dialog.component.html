@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content class="content">
+  <mat-form-field>
+    <input matInput [matDatepicker]="eventStartPicker" placeholder="Start Date" [(ngModel)]="eventStartDate" (dateChange)="dateTimeChanged()" disabled>
+    <mat-datepicker-toggle matSuffix [for]="eventStartPicker"></mat-datepicker-toggle>
+    <mat-datepicker #eventStartPicker disabled="false"></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="eventStartTime" type="time" placeholder="Start Time" (input)="dateTimeChanged()">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [matDatepicker]="eventEndPicker" placeholder="End Date" [(ngModel)]="eventEndDate" (dateChange)="dateTimeChanged()" disabled>
+    <mat-datepicker-toggle matSuffix [for]="eventEndPicker"></mat-datepicker-toggle>
+    <mat-datepicker #eventEndPicker disabled="false"></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="eventEndTime" type="time" placeholder="End Time" (input)="dateTimeChanged()">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="eventHours" type="number" placeholder="Hours" disabled>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onOk()" cdkFocusInitial>Ok</button>
+</div>

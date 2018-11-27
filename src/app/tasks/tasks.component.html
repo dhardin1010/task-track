@@ -1,0 +1,19 @@
+<div class="task-container">
+    <div class="task-container__header-block">
+      <div class="task-container__header-block-left">
+        <mat-icon class="button" (click)="onAdd()">add_circle</mat-icon>
+        <mat-icon class="edit" (click)="onEdit()">edit</mat-icon>
+      </div>
+      <span class="task-container__header-block-description">Tasks</span>
+      <div class="events-container__header-block-right">
+          <mat-icon class="edit" (click)="onDelete()">delete</mat-icon>
+      </div>
+    </div>
+    <div class="task-container__list-content">
+      <app-task-list-item *ngFor="let task of tasks; let index = index" 
+        (click)="onSelected(task, index)"
+        [task]="task" 
+        [active]="index === selectedIndex ? true : false"
+        [ngClass]="{active: index === selectedIndex}"></app-task-list-item>
+    </div>
+</div>

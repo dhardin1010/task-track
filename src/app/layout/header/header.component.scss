@@ -1,0 +1,39 @@
+
+.mat-toolbar {
+  background-color: var(--color-grey-light-2);
+  color: inherit;
+  // position: relative;
+  justify-content: space-between;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+}
+
+.logo {
+  height: 2.25rem;
+  margin-left: 1rem;
+}
+
+.icon-box {
+  display: flex;
+  align-self: stretch;
+  height: 100%;
+
+  &__user {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &--photo {
+          height: 4rem;
+          width: 4rem;
+          border-radius: 50%;
+          margin: 0 1rem 0 0;
+      }
+
+      &--name {
+          margin: 0 1rem 0 0;
+      }
+  }
+}

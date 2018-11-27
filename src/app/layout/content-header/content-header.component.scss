@@ -1,0 +1,18 @@
+
+.content-header {
+  display: flex;
+  flex: row;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--color-primary);
+  height: 10rem;
+  width: 100%;
+
+  .svg {
+    height: 10rem;
+    width: 10rem;
+    fill: white;
+  }
+}
+

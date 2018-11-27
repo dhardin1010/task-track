@@ -2,6 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.1.1.
 
+## This project uses the following:
+
+- Angular
+- FlexBox
+- CSS Grid
+- Angular Material
+
+## About this (DEMO) project
+The project stores data locally in the browser and does not at this time use any other data store.  This means refreshing the page will cause all data to be lost as this is only a demo project.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
