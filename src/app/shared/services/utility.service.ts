@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { environment } from './../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilityService {
+  dataStore: string;
 
   constructor() { }
 
@@ -31,6 +33,14 @@ export class UtilityService {
     const day = date.getDate();
     const year = date.getFullYear();
     return `${month}/${day}/${year}`;
+  }
+
+  setDataStore() {
+    this.dataStore = environment.datastore;
+  }
+
+  getDataStore() {
+    return this.dataStore;
   }
 
 }

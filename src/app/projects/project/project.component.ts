@@ -17,7 +17,7 @@ export class ProjectComponent implements OnInit {
 
   isEditing = false;
   projectForm: FormGroup;
-  project: Project;
+  project: Project = new Project(null, null, 0);
   projectId: string;
 
   constructor(private router: Router,
@@ -31,14 +31,21 @@ export class ProjectComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           this.projectId = params['id'];
-          this.projectService.getProject(this.projectId)
-            .subscribe(value => {
-              this.project = value;
-              this.projectService.setSelectedProject(this.project);
-              this.projectForm = this.formBuilder.group({
-                projectName: [this.project.name]
-              });
+
+          // Initialize form
+          this.projectForm = this.formBuilder.group({
+            projectName: ['']
+          });
+
+          this.projectService.selectedProjectSubject.subscribe(data => {
+            this.project = data;
+
+            this.projectForm = this.formBuilder.group({
+              projectName: [this.project.name]
             });
+          });
+
+          this.projectService.getProject(this.projectId);
         }
       );
   }
@@ -62,8 +69,12 @@ export class ProjectComponent implements OnInit {
   onProjectFormSubmit(form: NgForm) {
     this.isEditing = false;
     this.project.name = this.projectForm.get('projectName').value;
+
     this.projectService.updateProject(this.project)
-      .subscribe(() => {});
+      .then(() => {})
+      .catch((error) => {
+        // display error
+      });
   }
 
   onDelete() {
@@ -75,8 +86,11 @@ export class ProjectComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm') {
         this.projectService.deleteProject(this.projectId)
-          .subscribe(() => {
+          .then(() => {
             this.router.navigate(['']);
+          })
+          .catch((error) => {
+            // display error
           });
       }
     });

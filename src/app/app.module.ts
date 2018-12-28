@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
 import { ProjectListComponent } from './projects/project-list/project-list.component';
@@ -17,7 +20,8 @@ import { HeaderComponent } from './layout/header/header.component';
 import { ProjectComponent } from './projects/project/project.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { ConfirmationDialogComponent } from './shared/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { MatProgressSpinnerModule, MatRippleModule, MatListModule, MatFormFieldModule, MatInputModule, MatNativeDateModule } from '@angular/material';
+import { MatProgressSpinnerModule, MatRippleModule, MatListModule, MatFormFieldModule, MatInputModule,
+         MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EventsComponent } from './events/events.component';
 import { TaskEditDialogComponent } from './tasks/task-edit-dialog/task-edit-dialog.component';
@@ -63,6 +67,8 @@ const appRoutes: Routes = [
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
   exports: [
     MatIconModule,
