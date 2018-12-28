@@ -8,9 +8,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 - FlexBox
 - CSS Grid
 - Angular Material
+- Firebase (inprogress)
+- AngularFire2
 
 ## About this (DEMO) project
 The project stores data locally in the browser and does not at this time use any other data store.  This means refreshing the page will cause all data to be lost as this is only a demo project.
+
+(IN PROGRESS) Adding Firebase - Firestore as a data storage option 
 
 ## Development server
 
