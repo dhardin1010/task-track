@@ -4,7 +4,6 @@ import { Guid } from 'guid-typescript';
 import { Subject } from 'rxjs';
 import { TaskService } from './task.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ProjectFirebaseService } from './project-firebase.service';
 import { reject } from 'q';
 
@@ -16,14 +15,11 @@ export class ProjectService {
   selectedProject: Project;
   selectedProjectSubject = new Subject<Project>();
   projectsSubject = new Subject<Project[]>();
-  projectsCollection: AngularFirestoreCollection;
 
   constructor(private taskService: TaskService,
               private utilityService: UtilityService,
-              private firestoreDB: AngularFirestore,
               private projectFirebaseService: ProjectFirebaseService) {
 
-    this.projectsCollection = firestoreDB.collection<Project>('projects');
     this.taskService.projectHours.subscribe((hours: number) => {
       this.selectedProject.projectHours = hours;
       this.updateProject(this.selectedProject);
@@ -109,7 +105,7 @@ export class ProjectService {
     }
   }
 
-  deleteProject(id: string) {
+  deleteProject(id: string): Promise<any> {
     switch (this.utilityService.getDataStore()) {
       case 'local':
         return new Promise((resolve, reject) => {
@@ -125,13 +121,17 @@ export class ProjectService {
       case 'firebase':
         return this.projectFirebaseService.deleteProject(id)
           .then(() => {
-            // todo: delete tasks
-            return;
+            this.taskService.deleteTasks(id)
+              .then(() => {
+                return;
+              })
+              .catch((error) => {
+                return reject(error);
+              });
           })
           .catch((error) => {
             return reject(error);
           });
-
     }
   }
 }

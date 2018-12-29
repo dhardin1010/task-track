@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormBuilder, NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 import { ConfirmationDialogComponent } from '../../shared/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Project } from '../../shared/models/project.model';
@@ -12,13 +13,14 @@ import { ProjectService } from './../../shared/services/project.service';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent implements OnInit, OnDestroy {
   @ViewChild('projectName') projectName: ElementRef;
 
   isEditing = false;
   projectForm: FormGroup;
   project: Project = new Project(null, null, 0);
   projectId: string;
+  selectedProjectSubjectSubscription: Subscription;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -32,14 +34,15 @@ export class ProjectComponent implements OnInit {
         (params: Params) => {
           this.projectId = params['id'];
 
-          // Initialize form
+          // Initializes form
           this.projectForm = this.formBuilder.group({
             projectName: ['']
           });
 
-          this.projectService.selectedProjectSubject.subscribe(data => {
+          this.selectedProjectSubjectSubscription = this.projectService.selectedProjectSubject.subscribe(data => {
+            // used to debug to ensure proper unsubscribe
+            // console.log(data);
             this.project = data;
-
             this.projectForm = this.formBuilder.group({
               projectName: [this.project.name]
             });
@@ -94,5 +97,9 @@ export class ProjectComponent implements OnInit {
           });
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.selectedProjectSubjectSubscription.unsubscribe();
   }
 }

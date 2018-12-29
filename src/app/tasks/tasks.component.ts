@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { reject } from 'q';
 
 import { Task } from '../shared/models/task.model';
 import { TaskService } from '../shared/services/task.service';
@@ -13,11 +15,12 @@ import { EventService } from '../shared/services/event.service';
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.scss']
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnInit, OnDestroy {
   tasks: Task[];
   projectId: string;
   selectedIndex: number;
   currentTask: Task;
+  tasksSubjectSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
               private taskService: TaskService,
@@ -29,7 +32,13 @@ export class TasksComponent implements OnInit {
     .subscribe(
       (params: Params) => {
         this.projectId = params['id'];
-        this.tasks = this.taskService.getTasks(this.projectId);
+        this.tasksSubjectSubscription = this.taskService.tasksSubject.subscribe((data) => {
+          // used to debug to ensure proper unsubscribe
+          // console.log(data);
+          this.tasks = data;
+        });
+
+        this.taskService.getTasks(this.projectId);
     });
   }
 
@@ -39,10 +48,14 @@ export class TasksComponent implements OnInit {
       data: {taskName: ''}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-        if (result !== undefined) {
-          this.taskService.createTask(this.projectId, result);
-          this.tasks = this.taskService.getTasks(this.projectId);
+    dialogRef.afterClosed().subscribe(taskName => {
+        if (taskName !== undefined) {
+          this.taskService.addTask(this.projectId, taskName)
+            .then((value) => {
+            })
+            .catch((error) => {
+              // display error
+            });
         }
     });
   }
@@ -77,10 +90,14 @@ export class TasksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'confirm' && this.currentTask != null) {
-        this.taskService.deleteTask(this.currentTask);
-        this.currentTask = null;
-        this.selectedIndex = null;
-        this.tasks = this.taskService.getTasks(this.projectId);
+        this.taskService.deleteTask(this.currentTask)
+          .then(() => {
+            this.currentTask = null;
+            this.selectedIndex = null;
+          })
+          .catch((error) => {
+            return reject(error);
+          });
       }
     });
   }
@@ -91,4 +108,7 @@ export class TasksComponent implements OnInit {
     this.taskService.setCurrentTask(task);
   }
 
+  ngOnDestroy() {
+    this.tasksSubjectSubscription.unsubscribe();
+  }
 }
